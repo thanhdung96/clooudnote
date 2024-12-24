@@ -1,5 +1,5 @@
 controllers:
     resource:
         path: ../src/ApiBundle/Controller/
-        namespace: Api\Controller
+        namespace: ApiBundle\Controller
     type: attribute
