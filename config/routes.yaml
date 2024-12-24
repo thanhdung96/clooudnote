@@ -1,5 +1,27 @@
-controllers:
+admin_controller:
     resource:
-        path: ../src/ApiBundle/Controller/
-        namespace: ApiBundle\Controller
+        path: ../src/ApiBundle/Controller/Admin
+        namespace: App\ApiBundle\Controller\Admin
     type: attribute
+    prefix: /api/admin
+
+common_controller:
+    resource:
+        path: ../src/ApiBundle/Controller/Common
+        namespace: App\ApiBundle\Controller\Common
+    type: attribute
+    prefix: /api/shared
+
+security_controller:
+    resource:
+        path: ../src/ApiBundle/Controller/Security
+        namespace: App\ApiBundle\Controller\Security
+    type: attribute
+    prefix: /api/security
+
+clooudnote_controller:
+    resource:
+        path: ../src/ApiBundle/Controller/Notebook
+        namespace: App\ApiBundle\Controller\Notebook
+    type: attribute
+    prefix: /api/clooudnote

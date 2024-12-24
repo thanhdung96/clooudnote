@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class NotebookController extends AbstractController
 {
-    #[Route('/app/api/bundle/controller/notebook/notebook', name: 'app_api_bundle_controller_notebook_notebook')]
+    #[Route('', name: 'app_api_bundle_controller_notebook_notebook')]
     public function index(): JsonResponse
     {
         return $this->json([

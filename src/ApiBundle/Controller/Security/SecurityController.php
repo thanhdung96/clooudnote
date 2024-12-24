@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/api/bundle/controller/security/security', name: 'app_api_bundle_controller_security_security')]
+    #[Route('', name: 'app_api_bundle_controller_security_security')]
     public function index(): JsonResponse
     {
         return $this->json([
