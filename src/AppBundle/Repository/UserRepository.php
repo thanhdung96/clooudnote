@@ -42,7 +42,7 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         $queryBuilder
             ->select('user')
             ->from(User::class, 'user')
-            ->where($queryBuilder->expr()->like('user.roles', $queryBuilder->expr()->literal("%$role->name")));
+            ->where($queryBuilder->expr()->like('user.roles', $queryBuilder->expr()->literal("%$role->value%")));
 
         return $queryBuilder->getQuery()->getResult();
     }

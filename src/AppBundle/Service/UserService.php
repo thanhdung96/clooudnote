@@ -20,7 +20,7 @@ final class UserService implements IBaseService
     {
         $user = new User();
         $user->setEmail('dung.don.96@gmail.com');
-        $user->setRoles([$role->name]);
+        $user->setRoles([$role->value]);
         $password = $this->hashPassword($user, 'hello');
         $user->setPassword($password);
 

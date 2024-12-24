@@ -2,16 +2,8 @@
 
 namespace App\BaseBundle\Enum;
 
-enum UserRole implements IToString
+enum UserRole: string
 {
-    case Common;
-    case Admin;
-
-    public function toString(): string
-    {
-        return match ($this) {
-            UserRole::Admin => 'ROLE_ADMIN',
-            UserRole::Common => 'ROLE_USER',
-        };
-    }
+    case Common = 'ROLE_USER';
+    case Admin = 'ROLE_ADMIN';
 }
