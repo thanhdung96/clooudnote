@@ -12,6 +12,12 @@ abstract class BaseDeletableRepository extends BaseRepository implements IBaseDe
         parent::__construct($registry, $entityClass);
     }
 
+    /**
+     * Summary of deleteOne
+     * @param DeletableEntity $entity
+     * @param bool $flush
+     * @return void
+     */
     public function deleteOne(DeletableEntity $entity, bool $flush): void
     {
         $entityManager = $this->getEntityManager();

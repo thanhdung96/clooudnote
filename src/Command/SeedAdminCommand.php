@@ -22,6 +22,12 @@ class SeedAdminCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Summary of execute
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if($this->isAdminExist()) {
@@ -38,6 +44,10 @@ class SeedAdminCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * Summary of isAdminExist
+     * @return bool
+     */
     private function isAdminExist(): bool {
         $admin = $this->userService->getAdmin();
 

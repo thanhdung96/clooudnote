@@ -75,7 +75,7 @@ abstract class BaseEntity {
     {
         $this->id = Uuid::v7()->toString();
 
-        $currentTime = new \DateTimeImmutable();
+        $currentTime = new DateTimeImmutable();
         $this->created = $currentTime;
         $this->modified = $currentTime;
     }
@@ -83,6 +83,6 @@ abstract class BaseEntity {
     #[ORM\PrePersist]
     public function prePersis(): void
     {
-        $this->modified = new \DateTimeImmutable();
+        $this->modified = new DateTimeImmutable();
     }
 }

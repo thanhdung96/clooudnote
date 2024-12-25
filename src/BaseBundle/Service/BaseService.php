@@ -12,6 +12,11 @@ final class BaseService implements IBaseService
         private readonly IBaseRepository $baseRepository
     ) { }
 
+    /**
+     * Summary of save
+     * @param BaseEntity $data
+     * @return BaseEntity
+     */
     public function save(BaseEntity $data): BaseEntity
     {
         return $this->baseRepository->saveOne($data, true);

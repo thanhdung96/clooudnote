@@ -13,6 +13,12 @@ abstract class BaseRepository extends ServiceEntityRepository implements IBaseRe
         parent::__construct($registry, $entityClass);
     }
 
+    /**
+     * Summary of saveOne
+     * @param BaseEntity $entity
+     * @param bool $flush
+     * @return BaseEntity
+     */
     public function saveOne(BaseEntity $entity, bool $flush = true): BaseEntity {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($entity);
