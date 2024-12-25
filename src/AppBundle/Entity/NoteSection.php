@@ -11,15 +11,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: NoteSectionRepository::class)]
 class NoteSection extends DeletableEntity
 {
-    #[ORM\Column(length: 128)]
-    private ?string $sectionName = null;
+    #[ORM\Column(length: 128, nullable: false)]
+    private string $sectionName;
 
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'noteSections')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Notebook $notebook = null;
+    private Notebook $notebook;
 
     /**
      * @var Collection<int, NotePage>
@@ -44,11 +44,20 @@ class NoteSection extends DeletableEntity
         $this->addNotePage($notePage);
     }
 
-    public function getSectionName(): ?string
+    /**
+     * Summary of getSectionName
+     * @return string
+     */
+    public function getSectionName(): string
     {
         return $this->sectionName;
     }
 
+    /**
+     * Summary of setSectionName
+     * @param string $sectionName
+     * @return NoteSection
+     */
     public function setSectionName(string $sectionName): static
     {
         $this->sectionName = $sectionName;
@@ -56,11 +65,20 @@ class NoteSection extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of getDescription
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Summary of setDescription
+     * @param mixed $description
+     * @return NoteSection
+     */
     public function setDescription(?string $description): static
     {
         $this->description = $description;
@@ -68,12 +86,21 @@ class NoteSection extends DeletableEntity
         return $this;
     }
 
-    public function getNotebook(): ?Notebook
+    /**
+     * Summary of getNotebook
+     * @return Notebook
+     */
+    public function getNotebook(): Notebook
     {
         return $this->notebook;
     }
 
-    public function setNotebook(?Notebook $notebook): static
+    /**
+     * Summary of setNotebook
+     * @param Notebook $notebook
+     * @return NoteSection
+     */
+    public function setNotebook(Notebook $notebook): static
     {
         $this->notebook = $notebook;
 
@@ -88,6 +115,11 @@ class NoteSection extends DeletableEntity
         return $this->notePages;
     }
 
+    /**
+     * Summary of addNotePage
+     * @param NotePage $notePage
+     * @return NoteSection
+     */
     public function addNotePage(NotePage $notePage): static
     {
         if (!$this->notePages->contains($notePage)) {
@@ -98,14 +130,14 @@ class NoteSection extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of removeNotePage
+     * @param NotePage $notePage
+     * @return NoteSection
+     */
     public function removeNotePage(NotePage $notePage): static
     {
-        if ($this->notePages->removeElement($notePage)) {
-            // set the owning side to null (unless already changed)
-            if ($notePage->getNotesection() === $this) {
-                $notePage->setNotesection(null);
-            }
-        }
+        $this->notePages->removeElement($notePage);
 
         return $this;
     }
@@ -118,6 +150,11 @@ class NoteSection extends DeletableEntity
         return $this->tags;
     }
 
+    /**
+     * Summary of addTag
+     * @param Tag $tag
+     * @return NoteSection
+     */
     public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
@@ -127,6 +164,11 @@ class NoteSection extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of removeTag
+     * @param Tag $tag
+     * @return NoteSection
+     */
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);

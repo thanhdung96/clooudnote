@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag extends DeletableEntity
 {
-    #[ORM\Column(length: 32)]
-    private ?string $name = null;
+    #[ORM\Column(length: 32, nullable: true)]
+    private string $name;
 
     #[ORM\Column(length: 128, nullable: true)]
     private ?string $description = null;
@@ -37,11 +37,20 @@ class Tag extends DeletableEntity
         $this->noteSections = new ArrayCollection();
     }
 
-    public function getName(): ?string
+    /**
+     * Summary of getName
+     * @return string
+     */
+    public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * Summary of setName
+     * @param string $name
+     * @return Tag
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -49,11 +58,20 @@ class Tag extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of getDescription
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Summary of setDescription
+     * @param mixed $description
+     * @return Tag
+     */
     public function setDescription(?string $description): static
     {
         $this->description = $description;
@@ -69,6 +87,11 @@ class Tag extends DeletableEntity
         return $this->notebooks;
     }
 
+    /**
+     * Summary of addNotebook
+     * @param Notebook $notebook
+     * @return Tag
+     */
     public function addNotebook(Notebook $notebook): static
     {
         if (!$this->notebooks->contains($notebook)) {
@@ -79,6 +102,11 @@ class Tag extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of removeNotebook
+     * @param Notebook $notebook
+     * @return Tag
+     */
     public function removeNotebook(Notebook $notebook): static
     {
         if ($this->notebooks->removeElement($notebook)) {
@@ -96,6 +124,11 @@ class Tag extends DeletableEntity
         return $this->noteSections;
     }
 
+    /**
+     * Summary of addNoteSection
+     * @param NoteSection $noteSection
+     * @return Tag
+     */
     public function addNoteSection(NoteSection $noteSection): static
     {
         if (!$this->noteSections->contains($noteSection)) {
@@ -106,6 +139,11 @@ class Tag extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of removeNoteSection
+     * @param NoteSection $noteSection
+     * @return Tag
+     */
     public function removeNoteSection(NoteSection $noteSection): static
     {
         if ($this->noteSections->removeElement($noteSection)) {

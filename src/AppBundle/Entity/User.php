@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Column(length: 180)]
-    private ?string $email = null;
+    #[ORM\Column(length: 180, nullable: false)]
+    private string $email;
 
     /**
      * @var list<string> The user roles
@@ -27,8 +27,8 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(nullable: false)]
+    private string $password;
 
     /**
      * @var Collection<int, Notebook>
@@ -36,11 +36,20 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Notebook::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $notebooks;
 
-    public function getEmail(): ?string
+    /**
+     * Summary of getEmail
+     * @return string
+     */
+    public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * Summary of setEmail
+     * @param string $email
+     * @return User
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -90,6 +99,11 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->password;
     }
 
+    /**
+     * Summary of setPassword
+     * @param string $password
+     * @return User
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -121,6 +135,11 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->notebooks;
     }
 
+    /**
+     * Summary of addNotebook
+     * @param Notebook $notebook
+     * @return User
+     */
     public function addNotebook(Notebook $notebook): static
     {
         if (!$this->notebooks->contains($notebook)) {
@@ -131,14 +150,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
+    /**
+     * Summary of removeNotebook
+     * @param Notebook $notebook
+     * @return User
+     */
     public function removeNotebook(Notebook $notebook): static
     {
-        if ($this->notebooks->removeElement($notebook)) {
-            // set the owning side to null (unless already changed)
-            if ($notebook->getUser() === $this) {
-                $notebook->setUser(null);
-            }
-        }
+        $this->notebooks->removeElement($notebook);
 
         return $this;
     }

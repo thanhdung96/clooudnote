@@ -10,21 +10,30 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: NotePageRepository::class)]
 class NotePage extends DeletableEntity
 {
-    #[ORM\Column(length: 128)]
-    private ?string $pageHeader = null;
+    #[ORM\Column(length: 128, nullable: false)]
+    private string $pageHeader;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'notePages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?NoteSection $notesection = null;
+    private NoteSection $notesection;
 
-    public function getPageHeader(): ?string
+    /**
+     * Summary of getPageHeader
+     * @return string
+     */
+    public function getPageHeader(): string
     {
         return $this->pageHeader;
     }
 
+    /**
+     * Summary of setPageHeader
+     * @param string $pageHeader
+     * @return NotePage
+     */
     public function setPageHeader(string $pageHeader): static
     {
         $this->pageHeader = $pageHeader;
@@ -32,11 +41,20 @@ class NotePage extends DeletableEntity
         return $this;
     }
 
+    /**
+     * Summary of getContent
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
+    /**
+     * Summary of setContent
+     * @param string $content
+     * @return NotePage
+     */
     public function setContent(string $content): static
     {
         $this->content = $content;
@@ -44,12 +62,21 @@ class NotePage extends DeletableEntity
         return $this;
     }
 
-    public function getNotesection(): ?NoteSection
+    /**
+     * Summary of getNotesection
+     * @return NoteSection
+     */
+    public function getNotesection(): NoteSection
     {
         return $this->notesection;
     }
 
-    public function setNotesection(?NoteSection $notesection): static
+    /**
+     * Summary of setNotesection
+     * @param NoteSection $notesection
+     * @return NotePage
+     */
+    public function setNotesection(NoteSection $notesection): static
     {
         $this->notesection = $notesection;
 
