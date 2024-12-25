@@ -32,6 +32,7 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
     }
 
     /**
+     * Summary of getUserByRole
      * @param UserRole $role
      * @return User[]
      */

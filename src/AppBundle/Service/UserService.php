@@ -21,8 +21,8 @@ final class UserService implements IBaseService
 
     /**
      * Summary of createUser
-     * @param \App\BaseBundle\Enum\UserRole $role
-     * @return \App\AppBundle\Entity\User
+     * @param UserRole $role
+     * @return User
      */
     public function createUser(UserRole $role = UserRole::Common): User
     {
@@ -37,8 +37,8 @@ final class UserService implements IBaseService
 
     /**
      * Summary of save
-     * @param \App\BaseBundle\Entity\BaseEntity $data
-     * @return \App\AppBundle\Entity\User
+     * @param BaseEntity $data
+     * @return User
      */
     public function save(BaseEntity $data): User
     {
@@ -59,7 +59,7 @@ final class UserService implements IBaseService
     /**
      * Summary of hashPassword
      * 
-     * @param \App\AppBundle\Entity\User $user
+     * @param User $user
      * @param string $plaintext
      * @return string
      */

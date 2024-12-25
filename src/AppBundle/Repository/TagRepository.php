@@ -4,11 +4,10 @@ namespace App\AppBundle\Repository;
 
 use App\AppBundle\Entity\Tag;
 use App\BaseBundle\Repository\BaseDeletableRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Tag>
+ * @extends BaseDeletableRepository<Tag>
  */
 class TagRepository extends BaseDeletableRepository
 {
