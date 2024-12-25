@@ -29,6 +29,10 @@ class Tag extends DeletableEntity
     #[ORM\ManyToMany(targetEntity: NoteSection::class, mappedBy: 'tags')]
     private Collection $noteSections;
 
+    #[ORM\ManyToOne(inversedBy: 'tags')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
+
     public function __construct()
     {
         parent::__construct();
@@ -149,6 +153,27 @@ class Tag extends DeletableEntity
         if ($this->noteSections->removeElement($noteSection)) {
             $noteSection->removeTag($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * Summary of getUser
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * Summary of setUser
+     * @param User $user
+     * @return Tag
+     */
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

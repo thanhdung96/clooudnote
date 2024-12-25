@@ -37,6 +37,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     private Collection $notebooks;
 
     /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $tags;
+
+    /**
      * Summary of getEmail
      * @return string
      */
@@ -125,6 +131,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         parent::__construct();
         
         $this->notebooks = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -158,6 +165,31 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public function removeNotebook(Notebook $notebook): static
     {
         $this->notebooks->removeElement($notebook);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
