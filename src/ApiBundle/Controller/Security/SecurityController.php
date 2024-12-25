@@ -2,15 +2,24 @@
 
 namespace App\ApiBundle\Controller\Security;
 
+use App\ApiBundle\Dto\Security\LoginDto;
+use App\AppBundle\Service\SecurityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 class SecurityController extends AbstractController
 {
-    #[Route('', name: 'app_api_bundle_controller_security_security')]
-    public function index(): JsonResponse
-    {
+    public function __construct(
+        private readonly SecurityService $securityService
+    ) {}
+
+    #[Route('/login', name: 'api_security_login', methods: [Request::METHOD_POST])]
+    public function login(
+        #[MapRequestPayload] LoginDto $loginDto
+    ): JsonResponse {
         return $this->json([
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/ApiBundle/Controller/Security/SecurityController.php',
