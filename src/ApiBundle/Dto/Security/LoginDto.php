@@ -2,9 +2,20 @@
 
 namespace App\ApiBundle\Dto\Security;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 final class LoginDto {
-    
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 180
+    )]
+    #[Assert\Email]
     private string $email;
+
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 100
+    )]
     private string $password;
 
     /**

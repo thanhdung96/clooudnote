@@ -20,6 +20,8 @@ class SecurityController extends AbstractController
     public function login(
         #[MapRequestPayload] LoginDto $loginDto
     ): JsonResponse {
+        dd($loginDto);
+
         return $this->json([
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/ApiBundle/Controller/Security/SecurityController.php',

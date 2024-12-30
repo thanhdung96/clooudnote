@@ -1,3 +1,6 @@
+api_login_check:
+    path: /api/login_check
+
 admin_controller:
     resource:
         path: ../src/ApiBundle/Controller/Admin
