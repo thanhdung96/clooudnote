@@ -2,16 +2,16 @@ import {
   BelongsTo,
   Column,
   Default,
+  ForeignKey,
   Length,
   Model,
   Table,
 } from 'sequelize-typescript';
-import { COMMON_ENTITIES_DEF } from 'src/configs/entities.conf';
-import { Users } from 'src/users/models/users.model';
+import { getDefaultTableConfig } from 'src/configs/entities.conf';
+import { COLOUR_WHITE } from 'src/constants/tags.constants';
+import { Users } from 'src/users/models/users.models';
 
-export const DEEFAULT_TAG_COLOUR = '#fff';
-
-@Table({ ...COMMON_ENTITIES_DEF, deletedAt: false })
+@Table({ ...getDefaultTableConfig('tags', false) })
 export class Tags extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
@@ -23,10 +23,17 @@ export class Tags extends Model {
   description!: string;
 
   @Length({ max: 10, min: 1 })
-  @Default(DEEFAULT_TAG_COLOUR)
+  @Default(COLOUR_WHITE)
   @Column({ allowNull: false })
-  colour: string = DEEFAULT_TAG_COLOUR;
+  colour: string = COLOUR_WHITE;
 
-  @BelongsTo(() => Users, 'id')
+  @Default(false)
+  @Column({ allowNull: false })
+  isDefault: boolean = false;
+
+  @BelongsTo(() => Users, 'userId')
   user!: Users;
+
+  @ForeignKey(() => Users)
+  userId!: number;
 }

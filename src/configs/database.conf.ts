@@ -1,5 +1,9 @@
 import { Dialect } from 'sequelize';
-import { Users } from 'src/users/models/users.model';
+import { NoteBooks } from 'src/notes/models/notebooks.models';
+import { Pages } from 'src/notes/models/pages.models';
+import { Sections } from 'src/notes/models/sections.models';
+import { Tags } from 'src/tags/models/tags.models';
+import { Users } from 'src/users/models/users.models';
 
 export const DATABASE_CONFIG = {
   dialect: 'mysql' as Dialect,
@@ -8,5 +12,5 @@ export const DATABASE_CONFIG = {
   username: process.env.DATABASE_USERNAME ?? 'root',
   password: process.env.DATABASE_PASSWORD ?? 'root',
   database: process.env.DATABASE_NAME ?? 'test',
-  models: [Users],
+  models: [Users, Tags, NoteBooks, Sections, Pages],
 };

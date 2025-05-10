@@ -2,17 +2,18 @@ import {
   BelongsTo,
   Column,
   Default,
+  ForeignKey,
   HasMany,
   Length,
   Model,
   Table,
 } from 'sequelize-typescript';
-import { COMMON_ENTITIES_DEF } from 'src/configs/entities.conf';
-import { DEEFAULT_TAG_COLOUR } from 'src/tags/models/tags.models';
-import { Users } from 'src/users/models/users.model';
+import { getDefaultTableConfig } from 'src/configs/entities.conf';
+import { Users } from 'src/users/models/users.models';
 import { Sections } from './sections.models';
+import { COLOUR_WHITE } from 'src/constants/tags.constants';
 
-@Table(COMMON_ENTITIES_DEF)
+@Table({ ...getDefaultTableConfig('notebooks') })
 export class NoteBooks extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
@@ -24,13 +25,16 @@ export class NoteBooks extends Model {
   abstract!: string;
 
   @Length({ max: 10, min: 1 })
-  @Default(DEEFAULT_TAG_COLOUR)
+  @Default(COLOUR_WHITE)
   @Column({ allowNull: false })
-  coverColour: string = DEEFAULT_TAG_COLOUR;
+  coverColour: string = COLOUR_WHITE;
 
-  @BelongsTo(() => Users, 'id')
+  @BelongsTo(() => Users, 'userId')
   user!: Users;
 
-  @HasMany(() => Sections, 'id')
+  @ForeignKey(() => Users)
+  userId!: number;
+
+  @HasMany(() => Sections)
   notebooks: Sections[] = [];
 }

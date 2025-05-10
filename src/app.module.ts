@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DATABASE_CONFIG } from './configs/database.conf';
 import { TagsModule } from './tags/tags.module';
+import { HealthcheckModule } from './healthcheck/healthcheck.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TagsModule } from './tags/tags.module';
     NotesModule,
     SecuritiesModule,
     TagsModule,
+    HealthcheckModule,
     ConfigModule.forRoot(),
     SequelizeModule.forRoot(DATABASE_CONFIG),
   ],
