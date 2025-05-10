@@ -1,5 +1,12 @@
 import { TableOptions } from 'sequelize-typescript';
 
-export const COMMON_ENTITIES_DEF: TableOptions = {
-  timestamps: true,
-};
+export function getDefaultTableConfig(
+  tableName: string,
+  deletedAt: boolean = true,
+): TableOptions {
+  return {
+    tableName,
+    timestamps: true,
+    deletedAt,
+  };
+}

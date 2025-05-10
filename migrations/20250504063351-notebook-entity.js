@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('notebooks', {
       id: {
         allowNull: false,
@@ -22,7 +22,7 @@ module.exports = {
       coverColour: {
         allowNull: false,
         type: Sequelize.STRING(10),
-        defaultValue: '#fff'
+        defaultValue: '#fff',
       },
       createdAt: {
         allowNull: false,
@@ -42,7 +42,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('notebooks');
-  }
+  },
 };

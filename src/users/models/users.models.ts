@@ -7,11 +7,12 @@ import {
   Table,
   Unique,
 } from 'sequelize-typescript';
-import { COMMON_ENTITIES_DEF } from 'src/configs/entities.conf';
+import { getDefaultTableConfig } from 'src/configs/entities.conf';
+import { USER_ROLES } from 'src/constants/users.constants';
 import { NoteBooks } from 'src/notes/models/notebooks.models';
 import { Tags } from 'src/tags/models/tags.models';
 
-@Table(COMMON_ENTITIES_DEF)
+@Table({ ...getDefaultTableConfig('users') })
 export class Users extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
@@ -38,14 +39,9 @@ export class Users extends Model {
   @Column({ allowNull: false })
   role: string = USER_ROLES.USER;
 
-  @HasMany(() => Tags, 'id')
+  @HasMany(() => Tags)
   tags: Tags[] = [];
 
-  @HasMany(() => NoteBooks, 'id')
+  @HasMany(() => NoteBooks)
   notebooks: NoteBooks[] = [];
-}
-
-export enum USER_ROLES {
-  USER = 'user',
-  ADMIN = 'admin',
 }
