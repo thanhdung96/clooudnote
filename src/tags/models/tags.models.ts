@@ -7,8 +7,8 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { getDefaultTableConfig } from 'src/configs/entities.conf';
-import { COLOUR_WHITE } from 'src/constants/tags.constants';
+import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
+import { COLOUR_WHITE } from 'src/common/constants/tags.constants';
 import { Users } from 'src/users/models/users.models';
 
 @Table({ ...getDefaultTableConfig('tags', false) })

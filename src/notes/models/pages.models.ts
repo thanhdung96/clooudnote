@@ -7,7 +7,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { getDefaultTableConfig } from 'src/configs/entities.conf';
+import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
 import { Sections } from './sections.models';
 
 @Table({ ...getDefaultTableConfig('pages', false) })
