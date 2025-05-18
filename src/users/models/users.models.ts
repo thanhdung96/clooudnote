@@ -7,8 +7,8 @@ import {
   Table,
   Unique,
 } from 'sequelize-typescript';
-import { getDefaultTableConfig } from 'src/configs/entities.conf';
-import { USER_ROLES } from 'src/constants/users.constants';
+import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
+import { USER_ROLES } from 'src/common/constants/users.constants';
 import { NoteBooks } from 'src/notes/models/notebooks.models';
 import { Tags } from 'src/tags/models/tags.models';
 
@@ -16,7 +16,7 @@ import { Tags } from 'src/tags/models/tags.models';
 export class Users extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
-  fisrtName!: string;
+  firstName!: string;
 
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Tags } from '../models/tags.models';
 import { InjectModel } from '@nestjs/sequelize';
-import { COLOUR_PRESET } from 'src/constants/tags.constants';
+import { COLOUR_PRESET } from 'src/common/constants/tags.constants';
 
 @Injectable()
 export class TagsService {

@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { DEFAULT_PASSWORD, USER_ROLES } from 'src/constants/users.constants';
+import {
+  DEFAULT_PASSWORD,
+  USER_ROLES,
+} from 'src/common/constants/users.constants';
 import { Users } from 'src/users/models/users.models';
 import { UsersService } from 'src/users/services/users.service';
 
@@ -19,7 +22,7 @@ export class HealthcheckService {
   private createDefaultAdmin(): Users {
     const admin = new Users();
     admin.active = true;
-    admin.fisrtName = 'admin';
+    admin.firstName = 'admin';
     admin.lastName = 'clooudnote';
     admin.email = 'clooudnote_admin@email.com';
     admin.password = DEFAULT_PASSWORD;
