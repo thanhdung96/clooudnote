@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { NotesModule } from './notes/notes.module';
 import { SecuritiesModule } from './securities/securities.module';
@@ -20,7 +18,5 @@ import { HealthcheckModule } from './healthcheck/healthcheck.module';
     ConfigModule.forRoot(),
     SequelizeModule.forRoot(DATABASE_CONFIG),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

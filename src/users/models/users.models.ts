@@ -8,7 +8,6 @@ import {
   Unique,
 } from 'sequelize-typescript';
 import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
-import { USER_ROLES } from 'src/common/constants/users.constants';
 import { NoteBooks } from 'src/notes/models/notebooks.models';
 import { Tags } from 'src/tags/models/tags.models';
 
@@ -16,32 +15,32 @@ import { Tags } from 'src/tags/models/tags.models';
 export class Users extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
-  firstName!: string;
+  declare firstName: string;
 
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
-  lastName!: string;
+  declare lastName: string;
 
   @Length({ max: 255, min: 1 })
   @Unique
   @Column({ allowNull: false, unique: true })
-  email!: string;
+  declare email: string;
 
   @Length({ max: 128 })
   @Column
-  password!: string;
+  declare password: string;
 
   @Default(false)
   @Column
-  active: boolean = false;
+  declare active: boolean;
 
   @Length({ max: 10 })
   @Column({ allowNull: false })
-  role: string = USER_ROLES.USER;
+  declare role: string;
 
   @HasMany(() => Tags)
-  tags: Tags[] = [];
+  declare tags: Tags[];
 
   @HasMany(() => NoteBooks)
-  notebooks: NoteBooks[] = [];
+  declare notebooks: NoteBooks[];
 }

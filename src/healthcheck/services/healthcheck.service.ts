@@ -3,7 +3,7 @@ import {
   DEFAULT_PASSWORD,
   USER_ROLES,
 } from 'src/common/constants/users.constants';
-import { Users } from 'src/users/models/users.models';
+import { RegistrationDto } from 'src/users/dtos/register.dto';
 import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
@@ -14,19 +14,17 @@ export class HealthcheckService {
     const adminUser = await this.userService.getAdmin();
 
     if (adminUser === null) {
-      const newAdmin: Users = this.createDefaultAdmin();
-      this.userService.saveNewUser(newAdmin);
+      const newAdmin: RegistrationDto = this.createDefaultAdmin();
+      this.userService.saveNewUser(newAdmin, USER_ROLES.ADMIN);
     }
   }
 
-  private createDefaultAdmin(): Users {
-    const admin = new Users();
-    admin.active = true;
+  private createDefaultAdmin(): RegistrationDto {
+    const admin = new RegistrationDto();
     admin.firstName = 'admin';
     admin.lastName = 'clooudnote';
     admin.email = 'clooudnote_admin@email.com';
     admin.password = DEFAULT_PASSWORD;
-    admin.role = USER_ROLES.ADMIN;
 
     return admin;
   }
