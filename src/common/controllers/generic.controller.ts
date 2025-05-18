@@ -1,4 +1,4 @@
-import { HttpCode, HttpStatus } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
 import { GenericApiResponse } from '../dtos/common.dto';
 
 export abstract class GenericController {
