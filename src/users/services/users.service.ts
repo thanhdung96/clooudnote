@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Users } from '../models/users.models';
 import { InjectModel } from '@nestjs/sequelize';
-import { USER_ROLES } from 'src/common/constants/users.constants';
+import { USER_ROLES, USER_STATUS } from 'src/common/constants/users.constants';
 import { RegistrationDto } from '../dtos/register.dto';
 import { hashUserPassword } from 'src/common/utils/hashing';
 
@@ -42,6 +42,15 @@ export class UsersService {
     return await this.userModel.findOne({
       where: {
         email,
+      },
+    });
+  }
+
+  async getActiveUserByEmail(email: string): Promise<Users | null> {
+    return await this.userModel.findOne({
+      where: {
+        email,
+        active: USER_STATUS.active,
       },
     });
   }
