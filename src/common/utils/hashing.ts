@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { ROUND_NUMBER } from 'src/common/constants/security.conf';
+import { ROUND_NUMBER } from '@common/constants/security.conf';
 
 export async function hashUserPassword(plaintext: string): Promise<string> {
   const salt = await generateSalt();

@@ -7,10 +7,9 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
 import { Sections } from './sections.models';
 
-@Table({ ...getDefaultTableConfig('pages', false) })
+@Table({ tableName: 'pages', timestamps: true, deletedAt: false })
 export class Pages extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })

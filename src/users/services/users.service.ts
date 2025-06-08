@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { Users } from '../models/users.models';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { Users } from '@users/models/users.models';
 import { InjectModel } from '@nestjs/sequelize';
-import { USER_ROLES, USER_STATUS } from 'src/common/constants/users.constants';
-import { RegistrationDto } from '../dtos/register.dto';
-import { hashUserPassword } from 'src/common/utils/hashing';
+import { USER_ROLES, USER_STATUS } from '@common/constants/users.constants';
+import { RegistrationDto } from '@users/dtos/register.dto';
+import { hashUserPassword } from '@common/utils/hashing';
+import { UpdateProfileDto } from '@users/dtos/update-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -53,5 +59,39 @@ export class UsersService {
         active: USER_STATUS.active,
       },
     });
+  }
+
+  async updateUserProfile(
+    currentEmail: string,
+    updateData: UpdateProfileDto,
+  ): Promise<Users> {
+    const user = await this.userModel.findOne({
+      where: { email: currentEmail },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User profile not found');
+    }
+
+    // Extract update fields
+    const { firstName, lastName, email } = updateData;
+
+    // Validate new email if it's being changed
+    if (email && email !== currentEmail) {
+      const emailExists = await this.userModel.findOne({
+        where: { email },
+      });
+
+      if (emailExists) {
+        throw new ConflictException('Email address is already in use');
+      }
+    }
+    await user.update({ firstName, lastName, email });
+
+    try {
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to update user profile');
+    }
   }
 }

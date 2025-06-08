@@ -7,11 +7,14 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
-import { COLOUR_WHITE } from 'src/common/constants/tags.constants';
-import { Users } from 'src/users/models/users.models';
+import { COLOUR_WHITE } from '@common/constants/tags.constants';
+import { Users } from '@users/models/users.models';
 
-@Table({ ...getDefaultTableConfig('tags', false) })
+@Table({
+  tableName: 'tags',
+  timestamps: true,
+  deletedAt: false,
+})
 export class Tags extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
