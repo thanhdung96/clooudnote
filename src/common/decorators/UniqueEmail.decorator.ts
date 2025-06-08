@@ -4,7 +4,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { UsersService } from 'src/users/services/users.service';
+import { UsersService } from '@users/services/users.service';
 
 @ValidatorConstraint({ async: true, name: 'uniqueEmail' })
 @Injectable()

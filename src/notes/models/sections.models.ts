@@ -8,12 +8,11 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { getDefaultTableConfig } from 'src/common/configs/entities.conf';
 import { NoteBooks } from './notebooks.models';
 import { Pages } from './pages.models';
-import { COLOUR_WHITE } from 'src/common/constants/tags.constants';
+import { COLOUR_WHITE } from '@common/constants/tags.constants';
 
-@Table({ ...getDefaultTableConfig('sections', false) })
+@Table({ tableName: 'sections', timestamps: true, deletedAt: false })
 export class Sections extends Model {
   @Length({ max: 128, min: 1 })
   @Column({ allowNull: false })

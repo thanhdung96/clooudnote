@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./test/jest-e2e.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:create": "npx sequelize-cli migration:create --name ",
     "migrate:down": "npx sequelize-cli db:migrate:undo:all --to "
@@ -69,12 +69,21 @@
     "typescript-eslint": "^8.20.0"
   },
   "jest": {
+    "moduleNameMapper":{
+      "@src/(.*)": "<rootDir>/src/$1",
+      "@common/(.*)": "<rootDir>/src/common/$1",
+      "@healthcheck/(.*)": "<rootDir>/src/healthcheck/$1",
+      "@notes/(.*)": "<rootDir>/src/notes/$1",
+      "@securities/(.*)": "<rootDir>/src/securities/$1",
+      "@tags/(.*)": "<rootDir>/src/tags/$1",
+      "^@users/(.*)": "<rootDir>/src/users/$1"
+    },
     "moduleFileExtensions": [
       "js",
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
