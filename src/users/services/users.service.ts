@@ -10,12 +10,18 @@ import { USER_ROLES, USER_STATUS } from '@common/constants/users.constants';
 import { RegistrationDto } from '@users/dtos/register.dto';
 import { hashUserPassword } from '@common/utils/hashing';
 import { UpdateProfileDto } from '@users/dtos/update-profile.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import {
+  USER_CREATED_EVENT,
+  UserCreatedEvent,
+} from '@common/events/users/user-created.event';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(Users)
     private userModel: typeof Users,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async saveNewUser(
@@ -29,11 +35,17 @@ export class UsersService {
     }
 
     const newPassword = await hashUserPassword(registrationDto.password);
-    return await this.userModel.create({
+    const createdUser: Users = await this.userModel.create({
       ...registrationDto,
       role,
       password: newPassword,
     });
+    this.eventEmitter.emit(
+      USER_CREATED_EVENT,
+      new UserCreatedEvent(registrationDto.email),
+    );
+
+    return createdUser;
   }
 
   async getAdmin(): Promise<Users | null> {

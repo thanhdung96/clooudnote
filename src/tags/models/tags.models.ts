@@ -18,25 +18,21 @@ import { Users } from '@users/models/users.models';
 export class Tags extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
-  name!: string;
+  declare name: string;
 
   @Length({ max: 512, min: 1 })
   @Default(null)
   @Column({ allowNull: true })
-  description!: string;
+  declare description: string;
 
   @Length({ max: 10, min: 1 })
   @Default(COLOUR_WHITE)
   @Column({ allowNull: false })
-  colour: string = COLOUR_WHITE;
-
-  @Default(false)
-  @Column({ allowNull: false })
-  isDefault: boolean = false;
+  declare colour: string;
 
   @BelongsTo(() => Users, 'userId')
   user!: Users;
 
   @ForeignKey(() => Users)
-  userId!: number;
+  declare userId: number;
 }

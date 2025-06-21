@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from '@users/services/users.service';
-import {
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { UpdateProfileDto } from '@users/dtos/update-profile.dto';
 import { RegistrationDto } from '@users/dtos/register.dto';
@@ -21,7 +18,7 @@ describe('UsersService', () => {
     firstName: 'Mockup',
     lastName: 'User',
     password: 'mockup_password',
-  }
+  };
   let currentUser: Users;
 
   beforeAll(async () => {
@@ -30,7 +27,7 @@ describe('UsersService', () => {
     }).compile();
 
     usersService = module.get(UsersService);
-    currentUser = await usersService.saveNewUser(mockupUserRegister) as Users;    
+    currentUser = (await usersService.saveNewUser(mockupUserRegister)) as Users;
   });
 
   afterEach(async () => {
@@ -105,7 +102,7 @@ describe('UsersService', () => {
         lastName: 'User',
         email: newEmail,
       }),
-    ).resolves.toBe({...currentUser, email: newEmail});
+    ).resolves.toBe({ ...currentUser, email: newEmail });
   });
 
   // Validation tests for UpdateProfileDto
