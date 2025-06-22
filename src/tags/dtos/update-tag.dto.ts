@@ -1,7 +1,9 @@
 import { COLOUR_WHITE } from '@common/constants/tags.constants';
 import { Length, IsNotEmpty } from 'class-validator';
 
-export class CreateTagDto {
+export class UpdateTagDto {
+  id?: number;
+  
   @Length(1, 255)
   @IsNotEmpty()
   name: string = '';
@@ -12,6 +14,4 @@ export class CreateTagDto {
   @Length(1, 10)
   @IsNotEmpty()
   colour: string = COLOUR_WHITE;
-
-  declare userId: number;
 }
