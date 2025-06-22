@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"migrations/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"sequelize/**/*.js\"",
     "start": "nest start --env-file .env",
     "start:dev": "nest start --watch --env-file .env",
     "start:debug": "nest start --debug --watch --env-file .env",
@@ -23,6 +23,7 @@
     "migrate:down": "npx sequelize-cli db:migrate:undo:all --to "
   },
   "dependencies": {
+    "@casl/ability": "^6.7.3",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
