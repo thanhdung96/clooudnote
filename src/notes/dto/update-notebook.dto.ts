@@ -2,6 +2,8 @@ import { IsNotEmpty, IsOptional, Length } from 'class-validator';
 import { COLOUR_WHITE } from '@common/constants/tags.constants';
 
 export class UpdateNotebookDto {
+  id?: number;
+
   @Length(1, 255)
   @IsNotEmpty()
   title: string = '';

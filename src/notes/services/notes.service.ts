@@ -33,7 +33,6 @@ export class NotesService {
   async update(
     id: number,
     updateNotebookDto: UpdateNotebookDto,
-    user: Users,
   ): Promise<NoteBooks | null> {
     const notebook = await this.findById(id, user);
     if (notebook) {
@@ -42,7 +41,7 @@ export class NotesService {
     return null;
   }
 
-  async remove(id: number, user: Users): Promise<void> {
+  async remove(id: number): Promise<void> {
     const notebook = await this.findById(id, user);
     if (notebook) {
       await notebook.destroy();
