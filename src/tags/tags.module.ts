@@ -11,10 +11,6 @@ import { SecuritiesModule } from '@securities/securities.module';
   providers: [TagsService, TagsListener],
   controllers: [TagsController],
   exports: [TagsService],
-  imports: [
-    UsersModule,
-    SecuritiesModule,
-    SequelizeModule.forFeature([Tags]),
-  ],
+  imports: [UsersModule, SecuritiesModule, SequelizeModule.forFeature([Tags])],
 })
 export class TagsModule {}
