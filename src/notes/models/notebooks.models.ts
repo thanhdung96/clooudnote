@@ -15,29 +15,30 @@ import { COLOUR_WHITE } from '@common/constants/tags.constants';
 @Table({
   tableName: 'notebooks',
   timestamps: true,
-  deletedAt: true,
+  deletedAt: 'deletedAt',
+  paranoid: true,
 })
 export class NoteBooks extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
-  title!: string;
+  declare title: string;
 
   @Length({ max: 512, min: 1 })
   @Default(null)
   @Column({ allowNull: true })
-  abstract!: string;
+  declare abstract: string;
 
   @Length({ max: 10, min: 1 })
   @Default(COLOUR_WHITE)
   @Column({ allowNull: false })
-  coverColour: string = COLOUR_WHITE;
+  declare coverColour: string;
 
   @BelongsTo(() => Users, 'userId')
   user!: Users;
 
   @ForeignKey(() => Users)
-  userId!: number;
+  declare userId: number;
 
   @HasMany(() => Sections)
-  notebooks: Sections[] = [];
+  sections: Sections[] = [];
 }

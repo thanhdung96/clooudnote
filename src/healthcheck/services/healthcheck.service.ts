@@ -15,7 +15,7 @@ export class HealthcheckService {
 
     if (adminUser === null) {
       const newAdmin: RegistrationDto = this.createDefaultAdmin();
-      this.userService.saveNewUser(newAdmin, USER_ROLES.ADMIN);
+      await this.userService.saveNewUser(newAdmin, USER_ROLES.ADMIN);
     }
   }
 

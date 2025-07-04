@@ -62,7 +62,7 @@ describe('UsersService', () => {
 
   it('should throw ConflictException if new email is already in use', async () => {
     const { firstName, lastName, email } = currentUser;
-    let existingUser = { firstName, lastName, email };
+    const existingUser = { firstName, lastName, email };
     existingUser.email = usedEmail;
     await usersService.saveNewUser(existingUser as RegistrationDto);
 

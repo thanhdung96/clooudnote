@@ -13,7 +13,8 @@ import { Tags } from '@tags/models/tags.models';
 @Table({
   tableName: 'users',
   timestamps: true,
-  deletedAt: true,
+  deletedAt: 'deletedAt',
+  paranoid: true,
 })
 export class Users extends Model {
   @Length({ max: 255, min: 1 })
