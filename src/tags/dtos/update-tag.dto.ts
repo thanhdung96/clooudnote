@@ -3,7 +3,7 @@ import { Length, IsNotEmpty } from 'class-validator';
 
 export class UpdateTagDto {
   id?: number;
-  
+
   @Length(1, 255)
   @IsNotEmpty()
   name: string = '';
