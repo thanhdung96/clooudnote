@@ -12,7 +12,9 @@ import { Tags } from '@tags/models/tags.models';
 import { Users } from '@users/models/users.models';
 
 type TagUserSubject = InferSubjects<typeof Tags | typeof Users> | 'all';
-type NotebookUserSubject = InferSubjects<typeof NoteBooks | typeof Users> | 'all';
+type NotebookUserSubject =
+  | InferSubjects<typeof NoteBooks | typeof Users>
+  | 'all';
 
 export type TagsAbility = MongoAbility<[ACTIONS, TagUserSubject]>;
 
@@ -42,7 +44,7 @@ export class CaslAbilityFactory {
     return build({
       // Read https://casl.js.org/v6/en/guide/subject-type-detection#use-classes-as-subject-types for details
       detectSubjectType: (item) =>
-      item.constructor as ExtractSubjectType<NotebookUserSubject>,
+        item.constructor as ExtractSubjectType<NotebookUserSubject>,
     });
   }
 }
