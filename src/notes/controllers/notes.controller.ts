@@ -72,7 +72,7 @@ export class NotesController {
     )) as Users;
     const ability =
       this.caslAbilityFactory.createNotebookAbilityForUser(currentUser);
-    const notebook = await this.notesService.findById(notebookId);
+    const notebook = await this.notesService.findById(notebookId, true);
 
     if (!notebook) {
       throw new NotFoundException('Notebook not found');
@@ -141,5 +141,31 @@ export class NotesController {
     }
     await this.notesService.remove(notebookId);
     return { status: 410, message: 'Notebook deleted' };
+  }
+
+  @Patch('notebooks/:id/restore')
+  async restoreDeletedNoteAction(
+    @Param('id') notebookId: number,
+    @Req() req: AuthenticatedRequest,
+  ): Promise<UpdateNotebookDto> {
+    const currentUser = (await this.userService.getUserByEmail(
+      req.user.email,
+    )) as Users;
+    const ability =
+      this.caslAbilityFactory.createNotebookAbilityForUser(currentUser);
+    const notebook = await this.notesService.findById(notebookId);
+
+    if (!notebook) {
+      throw new NotFoundException('Notebook not found');
+    }
+    if (ability.cannot(ACTIONS.DELETE, notebook)) {
+      throw new UnauthorizedException(
+        'You are not authorized to delete this notebook',
+      );
+    }
+
+    const { id, title, abstract, coverColour }: UpdateNotebookDto =
+      await this.notesService.restore(notebookId);
+    return { id, title, abstract, coverColour };
   }
 }

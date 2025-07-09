@@ -20,13 +20,23 @@ export class NotesService {
     return await this.noteBooksModel.create({ ...createNotebookDto });
   }
 
-  async findAll(user: Users): Promise<NoteBooks[]> {
-    return await this.noteBooksModel.findAll({ where: { userId: user.id } });
+  async findAll(
+    user: Users,
+    includeDeleted: boolean = false,
+  ): Promise<NoteBooks[]> {
+    return await this.noteBooksModel.findAll({
+      where: { userId: user.id },
+      paranoid: !includeDeleted,
+    });
   }
 
-  async findById(id: number): Promise<NoteBooks | null> {
+  async findById(
+    id: number,
+    includeDeleted: boolean = false,
+  ): Promise<NoteBooks | null> {
     return await this.noteBooksModel.findOne({
       where: { id },
+      paranoid: !includeDeleted,
     });
   }
 
@@ -46,5 +56,17 @@ export class NotesService {
     if (notebook) {
       await notebook.destroy();
     }
+  }
+
+  async restore(id: number): Promise<NoteBooks> {
+    const notebook = await this.findById(id, true);
+    if (notebook) {
+      if (notebook.deletedAt === null) {
+        return notebook;
+      }
+
+      await notebook.restore();
+    }
+    throw Error('Notebook not found');
   }
 }

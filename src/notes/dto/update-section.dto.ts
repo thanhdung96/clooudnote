@@ -1,9 +1,9 @@
-import { COLOUR_WHITE } from "@common/constants/tags.constants";
-import { IsNotEmpty, IsOptional, Length } from "class-validator";
+import { COLOUR_WHITE } from '@common/constants/tags.constants';
+import { IsNotEmpty, IsOptional, Length } from 'class-validator';
 
 export class CreateSectionDto {
   id?: number;
-  
+
   @Length(1, 128)
   @IsNotEmpty()
   heading: string = '';
