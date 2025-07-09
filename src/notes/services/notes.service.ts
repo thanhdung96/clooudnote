@@ -4,12 +4,15 @@ import { NoteBooks } from '../models/notebooks.models';
 import { CreateNotebookDto } from '../dto/create-notebook.dto';
 import { Users } from '@users/models/users.models';
 import { UpdateNotebookDto } from '../dto/update-notebook.dto';
+import { SectionsService } from './sections.service';
+import { CreateSectionDto } from '@notes/dto/create-section.dto';
 
 @Injectable()
 export class NotesService {
   constructor(
     @InjectModel(NoteBooks)
     private noteBooksModel: typeof NoteBooks,
+    private readonly sectionService: SectionsService,
   ) {}
 
   async create(
@@ -17,7 +20,13 @@ export class NotesService {
     user: Users,
   ): Promise<NoteBooks> {
     createNotebookDto.userId = user.id;
-    return await this.noteBooksModel.create({ ...createNotebookDto });
+    const notebook: NoteBooks = await this.noteBooksModel.create({
+      ...createNotebookDto,
+    });
+    const section = new CreateSectionDto();
+    await this.sectionService.createSection(section, notebook);
+
+    return notebook;
   }
 
   async findAll(

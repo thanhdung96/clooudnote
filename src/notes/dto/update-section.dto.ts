@@ -1,7 +1,7 @@
 import { COLOUR_WHITE } from '@common/constants/tags.constants';
 import { IsNotEmpty, IsOptional, Length } from 'class-validator';
 
-export class CreateSectionDto {
+export class UpdateSectionDto {
   id?: number;
 
   @Length(1, 128)
