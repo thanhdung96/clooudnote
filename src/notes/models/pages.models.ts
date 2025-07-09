@@ -9,7 +9,12 @@ import {
 } from 'sequelize-typescript';
 import { Sections } from './sections.models';
 
-@Table({ tableName: 'pages', timestamps: true, deletedAt: false })
+@Table({
+  tableName: 'pages',
+  timestamps: true,
+  deletedAt: 'deletedAt',
+  paranoid: true,
+})
 export class Pages extends Model {
   @Length({ max: 255, min: 1 })
   @Column({ allowNull: false })
