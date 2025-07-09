@@ -16,28 +16,28 @@ import { COLOUR_WHITE } from '@common/constants/tags.constants';
 export class Sections extends Model {
   @Length({ max: 128, min: 1 })
   @Column({ allowNull: false })
-  heading!: string;
+  declare heading: string;
 
   @Length({ max: 128, min: 1 })
   @Default(null)
   @Column({ allowNull: true })
-  subHeading!: string;
+  declare subHeading: string;
 
   @Length({ max: 512, min: 1 })
   @Default(null)
   @Column({ allowNull: true })
-  description!: string;
+  declare description: string;
 
   @Length({ max: 10, min: 1 })
   @Default(COLOUR_WHITE)
   @Column({ allowNull: false })
-  sectionColour: string = COLOUR_WHITE;
+  declare sectionColour: string;
 
   @BelongsTo(() => NoteBooks, 'notebookId')
   notebook!: NoteBooks;
 
   @ForeignKey(() => NoteBooks)
-  notebookId!: number;
+  declare notebookId: number;
 
   @HasMany(() => Pages)
   pages: Pages[] = [];

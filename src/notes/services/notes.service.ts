@@ -23,7 +23,8 @@ export class NotesService {
     const notebook: NoteBooks = await this.noteBooksModel.create({
       ...createNotebookDto,
     });
-    const section = new CreateSectionDto();
+
+    const section = this.sectionService.generateNewSection();
     await this.sectionService.createSection(section, notebook);
 
     return notebook;
