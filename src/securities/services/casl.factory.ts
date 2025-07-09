@@ -15,7 +15,6 @@ type TagUserSubject = InferSubjects<typeof Tags | typeof Users> | 'all';
 type NotebookUserSubject =
   | InferSubjects<typeof NoteBooks | typeof Users>
   | 'all';
-
 export type TagsAbility = MongoAbility<[ACTIONS, TagUserSubject]>;
 
 @Injectable()

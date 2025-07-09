@@ -10,17 +10,17 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { NotesService } from '../services/notes.service';
-import { CreateNotebookDto } from '../dto/create-notebook.dto';
+import { NotesService } from '@notes/services/notes.service';
+import { CreateNotebookDto } from '@notes/dto/create-notebook.dto';
 import { AuthenticatedRequest } from '@common/dtos/authenticated_request';
 import { UsersService } from '@users/services/users.service';
 import { Users } from '@users/models/users.models';
-import { UpdateNotebookDto } from '../dto/update-notebook.dto';
+import { UpdateNotebookDto } from '@notes/dto/update-notebook.dto';
 import { CaslAbilityFactory } from '@securities/services/casl.factory';
 import { NoteBooks } from '@notes/models/notebooks.models';
 import { ACTIONS } from '@common/constants/actions.constants';
 
-@Controller('notes')
+@Controller('notebooks')
 export class NotesController {
   constructor(
     private notesService: NotesService,
@@ -28,7 +28,7 @@ export class NotesController {
     private caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
-  @Post('notebooks')
+  @Post()
   async createNotebookAction(
     @Body() createNotebookDto: CreateNotebookDto,
     @Req() req: AuthenticatedRequest,
@@ -46,7 +46,7 @@ export class NotesController {
     return { id, title, abstract, coverColour };
   }
 
-  @Get('notebooks')
+  @Get()
   async getAllNotebooksAction(
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdateNotebookDto[]> {
@@ -62,7 +62,7 @@ export class NotesController {
     });
   }
 
-  @Get('notebooks/:id')
+  @Get(':id')
   async getNotebookByIdAction(
     @Param('id') notebookId: number,
     @Req() req: AuthenticatedRequest,
@@ -72,7 +72,7 @@ export class NotesController {
     )) as Users;
     const ability =
       this.caslAbilityFactory.createNotebookAbilityForUser(currentUser);
-    const notebook = await this.notesService.findById(notebookId);
+    const notebook = await this.notesService.findById(notebookId, true);
 
     if (!notebook) {
       throw new NotFoundException('Notebook not found');
@@ -87,7 +87,7 @@ export class NotesController {
     return { id, title, abstract, coverColour };
   }
 
-  @Patch('notebooks/:id')
+  @Patch(':id')
   async updateNotebookByIdAction(
     @Param('id') notebookId: number,
     @Body() updateNotebookDto: UpdateNotebookDto,
@@ -119,7 +119,7 @@ export class NotesController {
     return { id, title, abstract, coverColour };
   }
 
-  @Delete('notebooks/:id')
+  @Delete(':id')
   async deleteNotebookByIdAction(
     @Param('id') notebookId: number,
     @Req() req: AuthenticatedRequest,
@@ -141,5 +141,31 @@ export class NotesController {
     }
     await this.notesService.remove(notebookId);
     return { status: 410, message: 'Notebook deleted' };
+  }
+
+  @Patch(':id/restore')
+  async restoreDeletedNoteAction(
+    @Param('id') notebookId: number,
+    @Req() req: AuthenticatedRequest,
+  ): Promise<UpdateNotebookDto> {
+    const currentUser = (await this.userService.getUserByEmail(
+      req.user.email,
+    )) as Users;
+    const ability =
+      this.caslAbilityFactory.createNotebookAbilityForUser(currentUser);
+    const notebook = await this.notesService.findById(notebookId);
+
+    if (!notebook) {
+      throw new NotFoundException('Notebook not found');
+    }
+    if (ability.cannot(ACTIONS.UPDATE, notebook)) {
+      throw new UnauthorizedException(
+        'You are not authorized to delete this notebook',
+      );
+    }
+
+    const { id, title, abstract, coverColour }: UpdateNotebookDto =
+      await this.notesService.restore(notebookId);
+    return { id, title, abstract, coverColour };
   }
 }
