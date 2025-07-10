@@ -19,6 +19,4 @@ export class UpdateSectionDto {
   @Length(1, 10)
   @IsOptional()
   sectionColour: string = COLOUR_WHITE;
-
-  declare notebookId: number;
 }

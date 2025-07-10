@@ -7,10 +7,11 @@ import { NoteBooks } from './models/notebooks.models';
 import { SecuritiesModule } from '@securities/securities.module';
 import { SectionsService } from './services/sections.service';
 import { Sections } from './models/sections.models';
+import { SectionsController } from './controllers/sections.controller';
 
 @Module({
   providers: [NotesService, SectionsService],
-  controllers: [NotesController],
+  controllers: [NotesController, SectionsController],
   imports: [
     UsersModule,
     SecuritiesModule,

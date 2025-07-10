@@ -5,7 +5,6 @@ import { CreateNotebookDto } from '../dto/create-notebook.dto';
 import { Users } from '@users/models/users.models';
 import { UpdateNotebookDto } from '../dto/update-notebook.dto';
 import { SectionsService } from './sections.service';
-import { CreateSectionDto } from '@notes/dto/create-section.dto';
 
 @Injectable()
 export class NotesService {
@@ -25,7 +24,7 @@ export class NotesService {
     });
 
     const section = this.sectionService.generateNewSection();
-    await this.sectionService.createSection(section, notebook);
+    await this.sectionService.createSection(notebook.id, section);
 
     return notebook;
   }

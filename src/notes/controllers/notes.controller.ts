@@ -20,7 +20,7 @@ import { CaslAbilityFactory } from '@securities/services/casl.factory';
 import { NoteBooks } from '@notes/models/notebooks.models';
 import { ACTIONS } from '@common/constants/actions.constants';
 
-@Controller('notes')
+@Controller('notebooks')
 export class NotesController {
   constructor(
     private notesService: NotesService,
@@ -28,7 +28,7 @@ export class NotesController {
     private caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
-  @Post('notebooks')
+  @Post()
   async createNotebookAction(
     @Body() createNotebookDto: CreateNotebookDto,
     @Req() req: AuthenticatedRequest,
@@ -46,7 +46,7 @@ export class NotesController {
     return { id, title, abstract, coverColour };
   }
 
-  @Get('notebooks')
+  @Get()
   async getAllNotebooksAction(
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdateNotebookDto[]> {
@@ -62,7 +62,7 @@ export class NotesController {
     });
   }
 
-  @Get('notebooks/:id')
+  @Get(':id')
   async getNotebookByIdAction(
     @Param('id') notebookId: number,
     @Req() req: AuthenticatedRequest,
@@ -87,7 +87,7 @@ export class NotesController {
     return { id, title, abstract, coverColour };
   }
 
-  @Patch('notebooks/:id')
+  @Patch(':id')
   async updateNotebookByIdAction(
     @Param('id') notebookId: number,
     @Body() updateNotebookDto: UpdateNotebookDto,
@@ -119,7 +119,7 @@ export class NotesController {
     return { id, title, abstract, coverColour };
   }
 
-  @Delete('notebooks/:id')
+  @Delete(':id')
   async deleteNotebookByIdAction(
     @Param('id') notebookId: number,
     @Req() req: AuthenticatedRequest,
@@ -143,7 +143,7 @@ export class NotesController {
     return { status: 410, message: 'Notebook deleted' };
   }
 
-  @Patch('notebooks/:id/restore')
+  @Patch(':id/restore')
   async restoreDeletedNoteAction(
     @Param('id') notebookId: number,
     @Req() req: AuthenticatedRequest,
