@@ -49,4 +49,21 @@ export class CaslAbilityFactory {
         item.constructor as ExtractSubjectType<NotebookUserSubject>,
     });
   }
+
+  createSectionAbilityForUser(user: Users) {
+    const { can, build } = new AbilityBuilder(createMongoAbility);
+
+    can([ACTIONS.READ, ACTIONS.UPDATE, ACTIONS.DELETE], Sections, {
+      notebook: {
+        userId: user.id,
+        deletedAt: null,
+      },
+    });
+
+    return build({
+      // Read https://casl.js.org/v6/en/guide/subject-type-detection#use-classes-as-subject-types for details
+      detectSubjectType: (item) =>
+        item.constructor as ExtractSubjectType<SectionUserSubject>,
+    });
+  }
 }
