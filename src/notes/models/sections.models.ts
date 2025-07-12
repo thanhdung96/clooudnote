@@ -12,7 +12,12 @@ import { NoteBooks } from './notebooks.models';
 import { Pages } from './pages.models';
 import { COLOUR_WHITE } from '@common/constants/tags.constants';
 
-@Table({ tableName: 'sections', timestamps: true, deletedAt: false })
+@Table({
+  tableName: 'sections',
+  timestamps: true,
+  deletedAt: 'deletedAt',
+  paranoid: true,
+})
 export class Sections extends Model {
   @Length({ max: 128, min: 1 })
   @Column({ allowNull: false })
