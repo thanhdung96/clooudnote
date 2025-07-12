@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { NoteBooks } from '../models/notebooks.models';
-import { CreateNotebookDto } from '../dto/create-notebook.dto';
+import { NoteBooks } from '@notes/models/notebooks.models';
+import { CreateNotebookDto } from '@notes/dto/create-notebook.dto';
 import { Users } from '@users/models/users.models';
-import { UpdateNotebookDto } from '../dto/update-notebook.dto';
+import { UpdateNotebookDto } from '@notes/dto/update-notebook.dto';
 import { SectionsService } from './sections.service';
 
 @Injectable()

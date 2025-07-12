@@ -10,10 +10,10 @@ import {
   UnauthorizedException,
   Req,
 } from '@nestjs/common';
-import { SectionsService } from '../services/sections.service';
-import { CreateSectionDto } from '../dto/create-section.dto';
-import { UpdateSectionDto } from '../dto/update-section.dto';
-import { Sections } from '../models/sections.models';
+import { SectionsService } from '@notes/services/sections.service';
+import { CreateSectionDto } from '@notes/dto/create-section.dto';
+import { UpdateSectionDto } from '@notes/dto/update-section.dto';
+import { Sections } from '@notes/models/sections.models';
 import { CaslAbilityFactory } from '@securities/services/casl.factory';
 import { ACTIONS } from '@common/constants/actions.constants';
 import { AuthenticatedRequest } from '@common/dtos/authenticated_request';

@@ -1,7 +1,6 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { Sections } from '@notes/models/sections.models';
 import { UpdateSectionDto } from '@notes/dto/update-section.dto';
-import { NoteBooks } from '@notes/models/notebooks.models';
 import { CreateSectionDto } from '@notes/dto/create-section.dto';
 import { Injectable } from '@nestjs/common';
 

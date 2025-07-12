@@ -10,12 +10,12 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { NotesService } from '../services/notes.service';
-import { CreateNotebookDto } from '../dto/create-notebook.dto';
+import { NotesService } from '@notes/services/notes.service';
+import { CreateNotebookDto } from '@notes/dto/create-notebook.dto';
 import { AuthenticatedRequest } from '@common/dtos/authenticated_request';
 import { UsersService } from '@users/services/users.service';
 import { Users } from '@users/models/users.models';
-import { UpdateNotebookDto } from '../dto/update-notebook.dto';
+import { UpdateNotebookDto } from '@notes/dto/update-notebook.dto';
 import { CaslAbilityFactory } from '@securities/services/casl.factory';
 import { NoteBooks } from '@notes/models/notebooks.models';
 import { ACTIONS } from '@common/constants/actions.constants';
