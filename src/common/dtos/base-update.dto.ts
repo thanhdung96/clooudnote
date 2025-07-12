@@ -1,7 +1,7 @@
 abstract class BaseUpdateDto {
-    id?: number;
+  id?: number;
 
-    declare createdAt: Date;
+  declare createdAt: Date;
 
-    declare updatedAt: Date;
+  declare updatedAt: Date;
 }

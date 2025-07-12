@@ -8,6 +8,7 @@ import {
 import { ACTIONS } from '@common/constants/actions.constants';
 import { Injectable } from '@nestjs/common';
 import { NoteBooks } from '@notes/models/notebooks.models';
+import { Sections } from '@notes/models/sections.models';
 import { Tags } from '@tags/models/tags.models';
 import { Users } from '@users/models/users.models';
 
@@ -15,6 +16,7 @@ type TagUserSubject = InferSubjects<typeof Tags | typeof Users> | 'all';
 type NotebookUserSubject =
   | InferSubjects<typeof NoteBooks | typeof Users>
   | 'all';
+type SectionUserSubject = InferSubjects<typeof Sections | typeof Users> | 'all';
 
 export type TagsAbility = MongoAbility<[ACTIONS, TagUserSubject]>;
 

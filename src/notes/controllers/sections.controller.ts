@@ -18,26 +18,36 @@ export class SectionsController {
   constructor(private readonly sectionsService: SectionsService) {}
 
   @Get()
-  async findAll(
+  async findAllAction(
     @Param('notebooksId') notebooksId: number,
-  ): Promise<Sections[]> {
-    return await this.sectionsService.getSectionsByNotebookId(notebooksId);
+  ): Promise<UpdateSectionDto[]> {
+    const sections =
+      await this.sectionsService.getSectionsByNotebookId(notebooksId);
+    return sections.map(
+      ({ heading, subHeading, description, sectionColour }) => ({
+        heading,
+        subHeading,
+        description,
+        sectionColour,
+      }),
+    );
   }
 
   @Get(':id')
-  async findOne(
+  async findOneAction(
     @Param('notebooksId') notebooksId: number,
     @Param('id') id: number,
-  ): Promise<Sections> {
+  ): Promise<UpdateSectionDto> {
     const section = await this.sectionsService.getSectionById(notebooksId, id);
     if (!section) {
       throw new NotFoundException('Section not found');
     }
-    return section;
+    const { heading, subHeading, description, sectionColour } = section;
+    return { heading, subHeading, description, sectionColour };
   }
 
   @Post()
-  async create(
+  async createAction(
     @Param('notebooksId') notebooksId: number,
     @Body() createSectionDto: CreateSectionDto,
   ): Promise<UpdateSectionDto> {
@@ -50,25 +60,26 @@ export class SectionsController {
   }
 
   @Patch(':id')
-  async update(
+  async updateAction(
     @Param('notebooksId') notebooksId: number,
     @Param('id') id: number,
     @Body() updateSectionDto: UpdateSectionDto,
-  ): Promise<Sections> {
+  ): Promise<UpdateSectionDto> {
     const section = await this.sectionsService.updateSection(
       notebooksId,
       id,
       updateSectionDto,
     );
-    return section;
+    const { heading, subHeading, description, sectionColour } = section;
+    return { heading, subHeading, description, sectionColour };
   }
 
   @Delete(':id')
-  async remove(
+  async removeAction(
     @Param('notebooksId') notebooksId: number,
     @Param('id') id: number,
-  ): Promise<any> {
+  ): Promise<{ message: string; status: number }> {
     await this.sectionsService.deleteSection(notebooksId, id);
-    return { message: 'Section deleted successfully' };
+    return { status: 410, message: 'Section deleted' };
   }
 }

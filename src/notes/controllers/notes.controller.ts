@@ -158,7 +158,7 @@ export class NotesController {
     if (!notebook) {
       throw new NotFoundException('Notebook not found');
     }
-    if (ability.cannot(ACTIONS.DELETE, notebook)) {
+    if (ability.cannot(ACTIONS.UPDATE, notebook)) {
       throw new UnauthorizedException(
         'You are not authorized to delete this notebook',
       );
