@@ -14,7 +14,8 @@ import { AuthenticatedRequest } from 'src/common/dtos/authenticated_request';
 import { UsersService } from '../services/users.service';
 import { Users } from '../models/users.models';
 import { UpdateProfileDto } from '../dtos/update-profile.dto';
-import { GenericApiResponse } from 'src/common/dtos/common.dto';
+import { plainToInstance } from 'class-transformer';
+import { GenericApiResponse } from '@common/dtos/common.dto';
 
 @Controller('account')
 export class AccountController extends GenericController {
@@ -29,10 +30,10 @@ export class AccountController extends GenericController {
     const user = (await this.userService.getUserByEmail(
       req.user.email,
     )) as Users;
-    const { firstName, lastName, email, createdAt }: UserProfileDto = user;
-    const profile: UserProfileDto = { firstName, lastName, email, createdAt };
 
-    return profile;
+    return plainToInstance(UserProfileDto, user, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Patch('/profile')

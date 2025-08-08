@@ -11,6 +11,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { NotesService } from '@notes/services/notes.service';
+import { plainToInstance } from 'class-transformer';
 import { CreateNotebookDto } from '@notes/dto/create-notebook.dto';
 import { AuthenticatedRequest } from '@common/dtos/authenticated_request';
 import { UsersService } from '@users/services/users.service';
@@ -42,8 +43,9 @@ export class NotesController {
       currentUser,
     );
 
-    const { id, title, abstract, coverColour }: UpdateNotebookDto = notebook;
-    return { id, title, abstract, coverColour };
+    return plainToInstance(UpdateNotebookDto, notebook, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Get()
@@ -57,8 +59,9 @@ export class NotesController {
     const lstNotebooks = await this.notesService.findAll(currentUser);
 
     return lstNotebooks.map((notebook: NoteBooks) => {
-      const { id, title, abstract, coverColour }: UpdateNotebookDto = notebook;
-      return { id, title, abstract, coverColour };
+      return plainToInstance(UpdateNotebookDto, notebook, {
+        excludeExtraneousValues: true,
+      });
     });
   }
 
@@ -83,8 +86,9 @@ export class NotesController {
       );
     }
 
-    const { id, title, abstract, coverColour }: UpdateNotebookDto = notebook;
-    return { id, title, abstract, coverColour };
+    return plainToInstance(UpdateNotebookDto, notebook, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Patch(':id')
@@ -114,9 +118,9 @@ export class NotesController {
       updateNotebookDto,
     );
 
-    const { id, title, abstract, coverColour }: UpdateNotebookDto =
-      updatedNotebook;
-    return { id, title, abstract, coverColour };
+    return plainToInstance(UpdateNotebookDto, updatedNotebook, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Delete(':id')
@@ -164,8 +168,10 @@ export class NotesController {
       );
     }
 
-    const { id, title, abstract, coverColour }: UpdateNotebookDto =
-      await this.notesService.restore(notebookId);
-    return { id, title, abstract, coverColour };
+    return plainToInstance(
+      UpdateNotebookDto,
+      await this.notesService.restore(notebookId),
+      { excludeExtraneousValues: true },
+    );
   }
 }
