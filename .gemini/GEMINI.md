@@ -30,7 +30,7 @@ This document outlines how to effectively use the Gemini CLI for development tas
 
 ### 2.3. Code Style
 
-- Strict adherence to ESLint and Prettier rules as defined in `.eslintrc.js` and `.prettierrc.js` (or `eslint.config.mjs` and `.prettierrc`).
+- Strict adherence to ESLint and Prettier rules as defined in `.eslintrc.js` and `.prettierrc.js`.
 - Consistent use of TypeScript types and interfaces for all data structures and function signatures.
 - Prefer explicit typing over implicit typing.
 
@@ -71,6 +71,8 @@ This document outlines how to effectively use the Gemini CLI for development tas
 
 - Sequelize ORM is used for database interaction.
 - Migrations are organized in `sequelize/migrations/` and managed via npm scripts.
+
+---
 
 ## 3. Common Development Tasks with Gemini
 
@@ -117,13 +119,15 @@ Gemini can assist with the following NestJS-specific tasks:
 
 *Example Prompt*: "Add TSDoc comments to all public methods in `src/products/products.controller.ts`."
 
+---
+
 ## 4. Useful NestJS CLI & npm Commands
 
 - `npm install <dependency_name>` : Install dependencies
 - `npm run start:dev`: Start the application in development mode (with watch)
 - `npm run build`: Build the application for production
 - `npm run test`: Run all tests
-- `npm run test:unit`: Run unit tests (Jest by default)
+- `npm run test:unit`: Run unit tests
 - `npm run test:e2e`: Run end-to-end tests
 - `npm run lint`: Run ESLint
 - `npm run format`: Run Prettier
@@ -131,12 +135,13 @@ Gemini can assist with the following NestJS-specific tasks:
 - `npm run migrate:create <migration_name>` : Create a new migration file with a specific name
 - `npm run migrate:down <migration_name>` : Roll back every migration until the specific migration name
 
+---
+
 ## 5. Gemini Interaction Tips
 
 - **Be Specific**: Provide as much context as possible (file paths, error messages, desired outcome).
 - **Iterate**: If the first attempt isn't perfect, provide feedback for refinement.
 - **Verify**: Always review generated code and run tests/linters before committing.
 
-## 6. Gemini Project Reference
-@./src/notes/GEMINI.md
-@./src/users/GEMINI.md
+## TODO Guidelines
+When analysing requirements, please read thoroughly the guidelines on how to create a todo list: @./TODO_GUIDELINES.md

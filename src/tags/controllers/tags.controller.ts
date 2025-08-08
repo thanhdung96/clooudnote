@@ -16,6 +16,7 @@ import { UpdateTagDto } from '@tags/dtos/update-tag.dto';
 import { CreateTagDto } from '@tags/dtos/create-tag.dto';
 import { Tags } from '@tags/models/tags.models';
 import { TagsService } from '@tags/services/tags.service';
+import { plainToInstance } from 'class-transformer';
 import { Users } from '@users/models/users.models';
 import { UsersService } from '@users/services/users.service';
 import { CaslAbilityFactory } from '@securities/services/casl.factory';
@@ -41,8 +42,9 @@ export class TagsController extends GenericController {
 
     const lstTags = await this.tagsService.getAll(currentUser);
     return lstTags.map((tag: Tags) => {
-      const { id, name, colour, description }: UpdateTagDto = tag;
-      return { id, name, colour, description };
+      return plainToInstance(UpdateTagDto, tag, {
+        excludeExtraneousValues: true,
+      });
     });
   }
 
@@ -66,8 +68,9 @@ export class TagsController extends GenericController {
         'You are not authorized to access this tag',
       );
     }
-    const { id, name, colour, description }: UpdateTagDto = tag;
-    return { id, name, colour, description };
+    return plainToInstance(UpdateTagDto, tag, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Patch(':id')
@@ -92,8 +95,9 @@ export class TagsController extends GenericController {
       );
     }
     const updatedTag = await this.tagsService.updateById(tagId, updateTagDto);
-    const { name, colour, description }: UpdateTagDto = updatedTag;
-    return { name, colour, description };
+    return plainToInstance(UpdateTagDto, updatedTag, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Post()
@@ -106,8 +110,9 @@ export class TagsController extends GenericController {
     )) as Users;
 
     const createdTag = await this.tagsService.create(createTagDto, currentUser);
-    const { id, name, colour, description }: UpdateTagDto = createdTag;
-    return { id, name, colour, description };
+    return plainToInstance(UpdateTagDto, createdTag, {
+      excludeExtraneousValues: true,
+    });
   }
 
   @Delete(':id')

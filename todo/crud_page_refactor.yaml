@@ -1,0 +1,135 @@
+description: |
+  Current: Page model and PagesService/PagesController are not aligned with declare keyword usage or nested notebook/section queries; no granular plan exists for this refactor.
+  Desired: Page model uses declare for its properties; PagesService exposes nested queries (by notebook and by notebook+section); PagesController refactored to use new service methods while preserving notebook-based authorization; track progress with a detailed, file-spanning YAML checklist.
+output: |
+  A refactored baseline with Page model declarations, nested query service methods, a streamlined PagesController, and a granular task tracker for iterative progress.
+checklist:
+  - id: 1
+    description: Update Page model properties to use declare keyword
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.1"
+    description: Add declare id: string to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.2"
+    description: Add declare title: string to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.3"
+    description: Add declare content?: string to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.4"
+    description: Add declare notebookId: string to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.5"
+    description: Add declare sectionId?: string to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.6"
+    description: Add declare authorId: string to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.7a"
+    description: Add declare createdAt: Date to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: "1.7b"
+    description: Add declare updatedAt: Date to Page model
+    files:
+    - "src/notes/models/pages.models.ts"
+    done: true
+  - id: 2
+    description: Add PageService methods for notebook and notebook+section queries
+    files:
+    - "src/notes/services/pages.service.ts"
+    done: true
+  - id: "2.1"
+    description: Implement findPagesByNotebook(notebookId: string): Promise<Page[]>
+    files:
+    - "src/notes/services/pages.service.ts"
+    done: true
+  - id: "2.2"
+    description: Implement findPagesByNotebookAndSection(notebookId: string, sectionId: string): Promise<Page[]>
+    files:
+    - "src/notes/services/pages.service.ts"
+    done: true
+  - id: "2.3"
+    description: Inject NotebookService and SectionService (or their repos) into PagesService
+    files:
+    - "src/notes/services/pages.service.ts"
+    - "src/notes/services/notes.service.ts"
+    - "src/notes/services/sections.service.ts"
+    done: true
+  - id: "2.4"
+    description: Implement nested query logic (join/filter by notebookId and sectionId)
+    files:
+    - "src/notes/services/pages.service.ts"
+    done: true
+  - id: 3
+    description: Refactor PagesController to use new service methods
+    files:
+    - "src/notes/controllers/pages.controller.ts"
+    done: true
+  - id: "3.1"
+    description: Remove unnecessary injections from PagesController (keep notebook-based auth)
+    files:
+    - "src/notes/controllers/pages.controller.ts"
+    done: true
+  - id: "3.2"
+    description: Update route handlers to call findPagesByNotebook / findPagesByNotebookAndSection
+    files:
+    - "src/notes/controllers/pages.controller.ts"
+    done: true
+  - id: 4
+    description: Update tests (unit/integration) to cover new methods and controller behavior
+    files:
+    - "src/notes/services/pages.service.spec.ts"
+    - "src/notes/controllers/pages.controller.spec.ts"
+    done: false
+  - id: "4.1"
+    description: Add unit tests for findPagesByNotebook
+    files:
+    - "src/notes/services/pages.service.spec.ts"
+    done: false
+  - id: "4.2"
+    description: Add unit tests for findPagesByNotebookAndSection
+    files:
+    - "src/notes/services/pages.service.spec.ts"
+    done: false
+  - id: "4.3"
+    description: Update controller tests to reflect new methods
+    files:
+    - "src/notes/controllers/pages.controller.spec.ts"
+    done: false
+  - id: "4.4"
+    description: Add or update integration tests for nested page queries
+    files:
+    - "src/notes/services/pages.integration.spec.ts"
+    done: false
+  - id: 5
+    description: Remove or reduce controller dependencies as per refactor
+    files:
+    - "src/notes/controllers/pages.controller.ts"
+    - "src/notes/notes.module.ts"
+    done: true
+  - id: 6
+    description: Documentation & review
+    files:
+    - "README.md"
+    - "docs/pages-api.md"
+    - "docs/notebooks.md"
+    done: false
+notes:
+  - Break big items into smaller sub-items per file to keep tasks manageable.
+  - If a task spans multiple files, split it into sub-items (one sub-item per file/update) to improve traceability.

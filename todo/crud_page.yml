@@ -1,0 +1,128 @@
+
+# This file outlines the steps to create a new CRUD (Create, Read, Update, Delete) functionality for pages within a notebook.
+# The goal is to create a new set of files for pages, similar to the existing implementation for sections.
+# This includes creating DTOs, a service, and a controller, and then updating the module to include them.
+# Authorization for CRUD operations on pages should be based on the user's access to the parent notebook, similar to the authorization scheme in `sections.controller.ts`.
+
+- task: Create Page DTOs
+  description: Create DTOs for creating and updating pages. refer to `src/notes/models/pages.models.ts` for the properties to include in the DTOs.
+  done: true
+  steps:
+    - step: Create `create-page.dto.ts` in `src/notes/dto`
+      description: "Defines the data transfer object for creating a new page. Pre-define non-optional properties with empty values."
+      done: true
+    - step: Create `update-page.dto.ts` in `src/notes/dto`
+      description: "Defines the data transfer object for updating an existing page."
+      done: true
+
+- task: Create Page Service
+  description: Create the service to handle business logic for pages.
+  done: true
+  steps:
+    - step: Create `pages.service.ts` in `src/notes/services`
+      description: "Implement methods for creating, reading, updating, and deleting pages. This service will interact with the `Pages` model. refer to `src/notes/services/sections.service.ts` for the methods to implement."
+      done: true
+    - step: Implement `getPagesBySectionId` method
+      description: "Input: `sectionId: number`. Output: `Promise<Pages[]>`."
+      done: true
+    - step: Implement `getPageById` method
+      description: "Input: `sectionId: number`, `id: number`. Output: `Promise<Pages | null>`."
+      done: true
+    - step: Implement `createPage` method
+      description: "Input: `sectionId: number`, `createPageDto: CreatePageDto`. Output: `Promise<UpdatePageDto>`."
+      done: true
+    - step: Implement `updatePage` method
+      description: "Input: `sectionId: number`, `id: number`, `updatePageDto: UpdatePageDto`. Output: `Promise<Pages>`."
+      done: true
+    - step: Implement `deletePage` method
+      description: "Input: `sectionId: number`, `id: number`. Output: `Promise<void>`."
+      done: true
+
+- task: Create Page Controller
+  description: Create the controller to handle API requests for pages.
+  done: true
+  steps:
+    - step: Create `pages.controller.ts` in `src/notes/controllers`
+      description: "Implement API endpoints for pages, including authorization based on the notebook. Use the `PagesService` to handle business logic. refer to `src/notes/controllers/sections.controller.ts` for the methods to implement."
+      done: true
+    - step: Implement `findAllAction` method
+      description: "Input: `@Param('sectionId') sectionId: number`, `@Req() req: AuthenticatedRequest`. Output: `Promise<UpdatePageDto[]>`."
+      done: true
+    - step: Implement `findOneAction` method
+      description: "Input: `@Param('sectionId') sectionId: number`, `@Param('id') id: number`, `@Req() req: AuthenticatedRequest`. Output: `Promise<UpdatePageDto>`."
+      done: true
+    - step: Implement `createAction` method
+      description: "Input: `@Param('sectionId') sectionId: number`, `@Body() createPageDto: CreatePageDto`, `@Req() req: AuthenticatedRequest`. Output: `Promise<UpdatePageDto>`."
+      done: true
+    - step: Implement `updateAction` method
+      description: "Input: `@Param('sectionId') sectionId: number`, `@Param('id') id: number`, `@Body() updatePageDto: UpdatePageDto`, `@Req() req: AuthenticatedRequest`. Output: `Promise<UpdatePageDto>`."
+      done: true
+    - step: Implement `removeAction` method
+      description: "Input: `@Param('sectionId') sectionId: number`, `@Param('id') id: number`, `@Req() req: AuthenticatedRequest`. Output: `Promise<{ message: string; status: number }>`."
+      done: true
+
+- task: Update Notes Module
+  description: Update the notes module to include the new pages controller and service.
+  done: true
+  steps:
+    - step: Update `notes.module.ts` in `src/notes`
+      description: "Add `PagesController` to the `controllers` array and `PagesService` to the `providers` array."
+      done: true
+
+- task: Refactor DTOs to use class-transformer
+  description: "Refactor all DTOs to use `class-transformer` for explicit property exposure, enhancing security and consistency. This involves adding `@Expose()` decorators to fields that should be included in API responses."
+  done: true
+  steps:
+    - step: Refactor `src/notes/dto/create-notebook.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/notes/dto/update-notebook.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/notes/dto/create-section.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/notes/dto/update-section.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/tags/dtos/create-tag.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/tags/dtos/update-tag.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/users/dtos/register.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Refactor `src/users/dtos/update-profile.dto.ts`
+      description: "Add `@Expose()` to all properties."
+      done: true
+    - step: Create `src/notes/dto/create-page.dto.ts`
+      description: "Create the DTO and add `@Expose()` to all properties."
+      done: true
+    - step: Create `src/notes/dto/update-page.dto.ts`
+      description: "Create the DTO and add `@Expose()` to all properties."
+      done: true
+
+- task: Update Controllers to use plainToInstance
+  description: "Update controllers to use `plainToInstance` for secure DTO transformation, replacing any manual object creation or destructuring."
+  done: true
+  steps:
+    - step: Update `notes.controller.ts`
+      description: "Refactor `src/notes/controllers/notes.controller.ts` to use `plainToInstance` for all response DTOs."
+      done: true
+    - step: Update `sections.controller.ts`
+      description: "Refactor `src/notes/controllers/sections.controller.ts` to use `plainToInstance` for all response DTOs."
+      done: true
+    - step: Update `tags.controller.ts`
+      description: "Refactor `src/tags/controllers/tags.controller.ts` to use `plainToInstance` for all response DTOs."
+      done: true
+    - step: Update `users.controller.ts`
+      description: "Refactor `src/users/controllers/users.controller.ts` to use `plainToInstance` for all response DTOs."
+      done: true
+    - step: Update `account.controller.ts`
+      description: "Refactor `src/users/controllers/account.controller.ts` to use `plainToInstance` for all response DTOs."
+      done: true
+    - step: Update `pages.controller.ts`
+      description: "Refactor the new `src/notes/controllers/pages.controller.ts` to use `plainToInstance` for all response DTOs."
+      done: true
