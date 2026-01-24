@@ -9,20 +9,24 @@ import {
   NotFoundException,
   UnauthorizedException,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { SectionsService } from '@notes/services/sections.service';
 import { plainToInstance } from 'class-transformer';
 import { CreateSectionDto } from '@notes/dto/create-section.dto';
-import { UpdateSectionDto } from '@notes/dto/update-section.dto';
 
 import { CaslAbilityFactory } from '@securities/services/casl.factory';
-import { ACTIONS } from '@common/constants/actions.constants';
 import { AuthenticatedRequest } from '@common/dtos/authenticated_request';
 import { UsersService } from '@users/services/users.service';
 import { Users } from '@users/models/users.models';
 import { NotesService } from '@notes/services/notes.service';
+import { NotebookAuthGuard } from '@securities/guards/notebook-auth.guard';
+import { NotebookPolicy } from '@securities/decorators/notebook_policy.decorator';
+import { ACTIONS } from '@common/constants/actions.constants';
+import { UpdateSectionDto } from '@notes/dto/update-section.dto';
 import { Sections } from '@notes/models/sections.models';
 
+@UseGuards(NotebookAuthGuard)
 @Controller('notebooks/:notebooksId/sections')
 export class SectionsController {
   constructor(
@@ -146,6 +150,9 @@ export class SectionsController {
     }
 
     const section = await this.sectionsService.getSectionById(notebooksId, id);
+    if (!section) {
+      throw new NotFoundException('Section not found');
+    }
 
     const updatedSection = await this.sectionsService.updateSection(
       notebooksId,
@@ -179,6 +186,9 @@ export class SectionsController {
     }
 
     const section = await this.sectionsService.getSectionById(notebooksId, id);
+    if (!section) {
+      throw new NotFoundException('Section not found');
+    }
 
     await this.sectionsService.deleteSection(notebooksId, id);
     return { status: 410, message: 'Section deleted' };

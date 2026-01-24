@@ -9,7 +9,10 @@ import {
   Post,
   Req,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
+import { NotebookAuthGuard } from '@securities/guards/notebook-auth.guard';
+import { NotebookPolicy } from '@securities/decorators/notebook_policy.decorator';
 import { NotesService } from '@notes/services/notes.service';
 import { plainToInstance } from 'class-transformer';
 import { CreateNotebookDto } from '@notes/dto/create-notebook.dto';
@@ -21,6 +24,7 @@ import { CaslAbilityFactory } from '@securities/services/casl.factory';
 import { NoteBooks } from '@notes/models/notebooks.models';
 import { ACTIONS } from '@common/constants/actions.constants';
 
+@UseGuards(NotebookAuthGuard)
 @Controller('notebooks')
 export class NotesController {
   constructor(
@@ -29,6 +33,7 @@ export class NotesController {
     private caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
+  @NotebookPolicy(ACTIONS.UPDATE)
   @Post()
   async createNotebookAction(
     @Body() createNotebookDto: CreateNotebookDto,
@@ -48,6 +53,7 @@ export class NotesController {
     });
   }
 
+  @NotebookPolicy(ACTIONS.READ)
   @Get()
   async getAllNotebooksAction(
     @Req() req: AuthenticatedRequest,
@@ -65,6 +71,7 @@ export class NotesController {
     });
   }
 
+  @NotebookPolicy(ACTIONS.READ)
   @Get(':id')
   async getNotebookByIdAction(
     @Param('id') notebookId: number,
@@ -91,6 +98,7 @@ export class NotesController {
     });
   }
 
+  @NotebookPolicy(ACTIONS.UPDATE)
   @Patch(':id')
   async updateNotebookByIdAction(
     @Param('id') notebookId: number,
@@ -123,6 +131,7 @@ export class NotesController {
     });
   }
 
+  @NotebookPolicy(ACTIONS.DELETE)
   @Delete(':id')
   async deleteNotebookByIdAction(
     @Param('id') notebookId: number,
@@ -147,6 +156,7 @@ export class NotesController {
     return { status: 410, message: 'Notebook deleted' };
   }
 
+  @NotebookPolicy(ACTIONS.UPDATE)
   @Patch(':id/restore')
   async restoreDeletedNoteAction(
     @Param('id') notebookId: number,

@@ -24,7 +24,7 @@ import { CaslAbilityFactory } from './services/casl.factory';
     JwtModule.register({
       global: true,
       secret: JWT_SECRET,
-      signOptions: { expiresIn: JWT_TTL },
+      signOptions: { expiresIn: parseInt(JWT_TTL) },
     }),
   ],
 })
