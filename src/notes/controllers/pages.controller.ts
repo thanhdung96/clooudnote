@@ -9,9 +9,12 @@ import {
   NotFoundException,
   UnauthorizedException,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { PagesService } from '@notes/services/pages.service';
 import { NotebookService } from '../services/notebooks.service';
+import { NotebookAuthGuard } from '@securities/guards/notebook-auth.guard';
+import { NotebookPolicy } from '@securities/decorators/notebook_policy.decorator';
 import { CreatePageDto } from '@notes/dto/create-page.dto';
 import { UpdatePageDto } from '@notes/dto/update-page.dto';
 import { CaslAbilityFactory } from '@securities/services/casl.factory';
@@ -21,6 +24,7 @@ import { UsersService } from '@users/services/users.service';
 import { Users } from '@users/models/users.models';
 import { plainToInstance } from 'class-transformer';
 
+@UseGuards(NotebookAuthGuard)
 @Controller('notebooks/:notebooksId/sections/:sectionId/pages')
 export class PagesController {
   constructor(
@@ -31,62 +35,29 @@ export class PagesController {
   ) {}
 
   @Get()
+  @NotebookPolicy(ACTIONS.READ)
   async findAllAction(
     @Param('notebooksId') notebooksId: string,
     @Param('sectionId') sectionId: string,
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdatePageDto[]> {
-    const currentUser = (await this.usersService.getUserByEmail(
-      req.user.email,
-    )) as Users;
-    const ability = this.caslAbility.createNotebookAbilityForUser(currentUser);
-
-    const notebook = await this.notebooksService.findNotebookById(
-      Number(notebooksId),
-    );
-    if (!notebook) {
-      throw new NotFoundException('Notebook not found');
-    }
-    if (ability.cannot(ACTIONS.READ, notebook)) {
-      throw new UnauthorizedException(
-        'You are not authorized to access this notebook',
-      );
-    }
-
     const pages = await this.pagesService.findPagesByNotebookAndSection(
       notebooksId,
       sectionId,
     );
-
     return plainToInstance(UpdatePageDto, pages, {
       excludeExtraneousValues: true,
     });
   }
 
   @Get(':id')
+  @NotebookPolicy(ACTIONS.READ)
   async findOneAction(
     @Param('notebooksId') notebooksId: string,
     @Param('sectionId') sectionId: string,
     @Param('id') id: string,
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdatePageDto> {
-    const currentUser = (await this.usersService.getUserByEmail(
-      req.user.email,
-    )) as Users;
-    const ability = this.caslAbility.createNotebookAbilityForUser(currentUser);
-
-    const notebook = await this.notebooksService.findNotebookById(
-      Number(notebooksId),
-    );
-    if (!notebook) {
-      throw new NotFoundException('Notebook not found');
-    }
-    if (ability.cannot(ACTIONS.READ, notebook)) {
-      throw new UnauthorizedException(
-        'You are not authorized to access this notebook',
-      );
-    }
-
     const pages = await this.pagesService.findPagesByNotebookAndSection(
       notebooksId,
       sectionId,
@@ -95,47 +66,30 @@ export class PagesController {
     if (!page) {
       throw new NotFoundException('Page not found');
     }
-
     return plainToInstance(UpdatePageDto, page, {
       excludeExtraneousValues: true,
     });
   }
 
   @Post()
+  @NotebookPolicy(ACTIONS.UPDATE)
   async createAction(
     @Param('notebooksId') notebooksId: string,
     @Param('sectionId') sectionId: string,
     @Body() createPageDto: CreatePageDto,
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdatePageDto> {
-    const currentUser = (await this.usersService.getUserByEmail(
-      req.user.email,
-    )) as Users;
-    const ability = this.caslAbility.createNotebookAbilityForUser(currentUser);
-
-    const notebook = await this.notebooksService.findNotebookById(
-      Number(notebooksId),
-    );
-    if (!notebook) {
-      throw new NotFoundException('Notebook not found');
-    }
-    if (ability.cannot(ACTIONS.UPDATE, notebook)) {
-      throw new UnauthorizedException(
-        'You are not authorized to create a page in this notebook',
-      );
-    }
-
     const page = await this.pagesService.createPage(
       Number(sectionId),
       createPageDto,
     );
-
     return plainToInstance(UpdatePageDto, page, {
       excludeExtraneousValues: true,
     });
   }
 
   @Patch(':id')
+  @NotebookPolicy(ACTIONS.UPDATE)
   async updateAction(
     @Param('notebooksId') notebooksId: string,
     @Param('sectionId') sectionId: string,
@@ -143,23 +97,15 @@ export class PagesController {
     @Body() updatePageDto: UpdatePageDto,
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdatePageDto> {
-    const currentUser = (await this.usersService.getUserByEmail(
-      req.user.email,
-    )) as Users;
-    const ability = this.caslAbility.createNotebookAbilityForUser(currentUser);
-
-    const notebook = await this.notebooksService.findNotebookById(
-      Number(notebooksId),
+    // Verify the page exists within the specified notebook/section
+    const currentPages = await this.pagesService.findPagesByNotebookAndSection(
+      notebooksId,
+      sectionId,
     );
-    if (!notebook) {
-      throw new NotFoundException('Notebook not found');
+    const existingPage = currentPages.find((p) => p.id === id);
+    if (!existingPage) {
+      throw new NotFoundException('Page not found');
     }
-    if (ability.cannot(ACTIONS.UPDATE, notebook)) {
-      throw new UnauthorizedException(
-        'You are not authorized to update this page',
-      );
-    }
-
     const updatedPage = await this.pagesService.updatePage(
       Number(sectionId),
       Number(id),
@@ -172,29 +118,22 @@ export class PagesController {
   }
 
   @Delete(':id')
+  @NotebookPolicy(ACTIONS.UPDATE)
   async removeAction(
     @Param('notebooksId') notebooksId: string,
     @Param('sectionId') sectionId: string,
     @Param('id') id: string,
     @Req() req: AuthenticatedRequest,
   ): Promise<{ message: string; status: number }> {
-    const currentUser = (await this.usersService.getUserByEmail(
-      req.user.email,
-    )) as Users;
-    const ability = this.caslAbility.createNotebookAbilityForUser(currentUser);
-
-    const notebook = await this.notebooksService.findNotebookById(
-      Number(notebooksId),
+    // Verify the page exists before attempting to delete
+    const currentPages = await this.pagesService.findPagesByNotebookAndSection(
+      notebooksId,
+      sectionId,
     );
-    if (!notebook) {
-      throw new NotFoundException('Notebook not found');
+    const existingPage = currentPages.find((p) => p.id === id);
+    if (!existingPage) {
+      throw new NotFoundException('Page not found');
     }
-    if (ability.cannot(ACTIONS.UPDATE, notebook)) {
-      throw new UnauthorizedException(
-        'You are not authorized to delete this page',
-      );
-    }
-
     await this.pagesService.deletePage(Number(sectionId), Number(id));
     return { status: 410, message: 'Page deleted' };
   }
